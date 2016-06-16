@@ -7,11 +7,15 @@ package views;
 
 import controllers.ModeloController;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JDesktopPane;
+import javax.swing.JOptionPane;
 import javax.swing.plaf.DesktopPaneUI;
+import javax.swing.table.DefaultTableModel;
 import models.Modelo;
+import models.Montadora;
 
 /**
  *
@@ -30,6 +34,8 @@ public class FrmModeloDetalhes extends javax.swing.JInternalFrame {
         this.setLocation(280, 100);
         _internalPrincipal = internalPrincipal;
         _modeloController = new ModeloController();
+        
+        carregarTabela("Ativos","");
     }
     
 
@@ -66,6 +72,11 @@ public class FrmModeloDetalhes extends javax.swing.JInternalFrame {
         });
 
         btnExcluir.setText("Excluir");
+        btnExcluir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnExcluirActionPerformed(evt);
+            }
+        });
 
         btnFechar.setText("Fechar");
         btnFechar.addActionListener(new java.awt.event.ActionListener() {
@@ -123,16 +134,33 @@ public class FrmModeloDetalhes extends javax.swing.JInternalFrame {
 
         gridModelo.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+
             },
             new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
+                "Código", "Modelo", "Montadora", "Ativo"
             }
-        ));
+        ) {
+            Class[] types = new Class [] {
+                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
+            };
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
         jScrollPane1.setViewportView(gridModelo);
+        if (gridModelo.getColumnModel().getColumnCount() > 0) {
+            gridModelo.getColumnModel().getColumn(0).setResizable(false);
+            gridModelo.getColumnModel().getColumn(1).setResizable(false);
+            gridModelo.getColumnModel().getColumn(2).setResizable(false);
+        }
 
         cbSituacao.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Todos", "Ativos", "Inativos" }));
 
@@ -178,38 +206,73 @@ public class FrmModeloDetalhes extends javax.swing.JInternalFrame {
     private void btnFecharActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFecharActionPerformed
         this.dispose();
     }//GEN-LAST:event_btnFecharActionPerformed
-
-    
+  
     private void btnNovoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNovoActionPerformed
-        ChamarFormModeloCadastro(AcaoNaTela.Inserir, null);
+        chamarFormModeloCadastro(AcaoNaTela.Inserir, null);
     }//GEN-LAST:event_btnNovoActionPerformed
 
-    
     private void btnAlterarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAlterarActionPerformed
         
-        //Modelo tem que ser selecionado na Grid
+        int linhaSelecionada  = gridModelo.getSelectedRow();
+        
+        if(linhaSelecionada <= 0){
+            JOptionPane.showMessageDialog(null, "Nenhum modelo foi seleciondo.", "INFORMAÇÔES", JOptionPane.INFORMATION_MESSAGE);
+            return;
+        }
+        
+        int id =  (Integer)gridModelo.getValueAt(linhaSelecionada, 0);
+       
         Modelo modelo = null;
         try {
-            modelo = _modeloController.buscarPorId(1);
+            modelo = _modeloController.buscarPorId(id);
         } catch (SQLException ex) {
-            Logger.getLogger(FrmModeloDetalhes.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(null,"Ocorreu um erro ao tentar visualizar um model.", "ERRO", JOptionPane.ERROR_MESSAGE);
         }
-        ChamarFormModeloCadastro(AcaoNaTela.Editar, modelo);
+        chamarFormModeloCadastro(AcaoNaTela.Editar, modelo);
     }//GEN-LAST:event_btnAlterarActionPerformed
 
     private void btnDetalhesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDetalhesActionPerformed
-        Modelo modelo = new Modelo(1,"Celta", 1 ,1, true);         
-        ChamarFormModeloCadastro(AcaoNaTela.Detalhes, modelo);
+        int linhaSelecionada  = gridModelo.getSelectedRow();
+        
+        if(linhaSelecionada <= 0){
+            JOptionPane.showMessageDialog(null, "Nenhum modelo foi seleciondo.", "INFORMAÇÔES", JOptionPane.INFORMATION_MESSAGE);
+            return;
+        }
+        
+        int id =  (Integer)gridModelo.getValueAt(linhaSelecionada, 0);
+       
+        Modelo modelo = null;
+        try {
+            modelo = _modeloController.buscarPorId(id);
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null,"Ocorreu um erro ao tentar visualizar um model.", "ERRO", JOptionPane.ERROR_MESSAGE);
+        }         
+        chamarFormModeloCadastro(AcaoNaTela.Detalhes, modelo);
     }//GEN-LAST:event_btnDetalhesActionPerformed
 
-    
-    private void ChamarFormModeloCadastro(AcaoNaTela acao, Modelo modelo) {
-        FrmModeloCadastro frm = new FrmModeloCadastro(_internalPrincipal,acao, modelo);
-        this.dispose();
-        _internalPrincipal.add(frm);
-        frm.setVisible(true);
-    }
-
+    private void btnExcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExcluirActionPerformed
+        int linhaSelecionada  = gridModelo.getSelectedRow();
+        
+        if(linhaSelecionada <= 0){
+            JOptionPane.showMessageDialog(null, "Nenhum modelo foi seleciondo.", "INFORMAÇÔES", JOptionPane.INFORMATION_MESSAGE);
+            return;
+        }
+        
+        int id =  (Integer)gridModelo.getValueAt(linhaSelecionada, 0);
+        try {
+            Modelo modelo = _modeloController.buscarPorId(id);
+            int result = JOptionPane.showConfirmDialog(null, "Tem certeza que deseja excluir?", "PERGUNTA", JOptionPane.YES_NO_CANCEL_OPTION);      
+            if(result == JOptionPane.YES_NO_OPTION){
+                _modeloController.excluir(modelo);               
+                removerLinha(linhaSelecionada);                       
+        }
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, "Erro ao tentar excluir a montadora", "ERRO", JOptionPane.ERROR_MESSAGE);
+        }
+              
+        
+    }//GEN-LAST:event_btnExcluirActionPerformed
+  
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAlterar;
     private javax.swing.JButton btnDetalhes;
@@ -223,4 +286,40 @@ public class FrmModeloDetalhes extends javax.swing.JInternalFrame {
     private javax.swing.JPanel pnlAcoes;
     private javax.swing.JTextField txtPesquisar;
     // End of variables declaration//GEN-END:variables
+
+    private void chamarFormModeloCadastro(AcaoNaTela acao, Modelo modelo) {
+        FrmModeloCadastro frm = new FrmModeloCadastro(_internalPrincipal,acao, modelo);
+        this.dispose();
+        _internalPrincipal.add(frm);
+        frm.setVisible(true);
+    }
+    
+    private void carregarTabela(String situacao, String pesquisa){
+        
+        ArrayList<Modelo> modelos = new ArrayList<Modelo>();
+        
+        try{
+            modelos = _modeloController.selecionarTodosAtivosInativos(situacao ,pesquisa);
+                     
+            if(modelos == null){
+                JOptionPane.showMessageDialog(null, "Nenhum modelo cadastrada", "INFORMAÇÕES", JOptionPane.INFORMATION_MESSAGE);
+            }
+            
+            DefaultTableModel table = (DefaultTableModel) gridModelo.getModel();
+            
+            for(Modelo m: modelos){
+                table.addRow(new Object[]{m.getId(), m.getNome(), m.Montadora.getNome(), m.isAtivo()? "Ativo" : "Inativo"});
+            }
+            
+        }catch(Exception ex){
+            JOptionPane.showMessageDialog(null, "Não foi possível carregas as informações Detalhes: "+ex.getMessage(), "ERRO", JOptionPane.ERROR_MESSAGE);
+        }
+        
+    }
+    
+    private void removerLinha(int linhaSelecionada){
+        DefaultTableModel table = (DefaultTableModel) gridModelo.getModel();
+        
+        table.removeRow(linhaSelecionada);
+    }
 }

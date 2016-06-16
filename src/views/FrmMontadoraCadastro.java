@@ -35,7 +35,6 @@ public class FrmMontadoraCadastro extends javax.swing.JInternalFrame {
         _controller = new MontadoraController();
     }
 
-   
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -127,9 +126,7 @@ public class FrmMontadoraCadastro extends javax.swing.JInternalFrame {
 
     private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
         this.setVisible(false);
-        FrmMontadoraDetalhes frm = new FrmMontadoraDetalhes(_internalPrincipal);
-        _internalPrincipal.add(frm);
-        frm.setVisible(true);
+        ChamarTelaDetalhes();
         this.dispose();
     }//GEN-LAST:event_btnCancelarActionPerformed
 
@@ -143,10 +140,18 @@ public class FrmMontadoraCadastro extends javax.swing.JInternalFrame {
             break;
         }
         
-        FrmMontadoraDetalhes frm = new FrmMontadoraDetalhes(_internalPrincipal);
-        _internalPrincipal.add(frm);
-        frm.setVisible(true);
+        ChamarTelaDetalhes();
     }//GEN-LAST:event_btnSalvarActionPerformed
+
+    // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnCancelar;
+    private javax.swing.JButton btnSalvar;
+    private javax.swing.JCheckBox chkAtivo;
+    private javax.swing.JLabel lblCodigo;
+    private javax.swing.JLabel lblNome;
+    private javax.swing.JTextField txtCodigo;
+    private javax.swing.JTextField txtNome;
+    // End of variables declaration//GEN-END:variables
 
     private void inserir() {
                
@@ -178,7 +183,7 @@ public class FrmMontadoraCadastro extends javax.swing.JInternalFrame {
         
     }
     
-     private void EscolherAcaoNaTela(AcaoNaTela acaoNaTela, Montadora montadora) {
+    private void EscolherAcaoNaTela(AcaoNaTela acaoNaTela, Montadora montadora) {
         
         txtCodigo.setEnabled(false);
         chkAtivo.setVisible(false);
@@ -209,14 +214,9 @@ public class FrmMontadoraCadastro extends javax.swing.JInternalFrame {
         }
     }
     
-    
-    // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnCancelar;
-    private javax.swing.JButton btnSalvar;
-    private javax.swing.JCheckBox chkAtivo;
-    private javax.swing.JLabel lblCodigo;
-    private javax.swing.JLabel lblNome;
-    private javax.swing.JTextField txtCodigo;
-    private javax.swing.JTextField txtNome;
-    // End of variables declaration//GEN-END:variables
+    private void ChamarTelaDetalhes() {
+        FrmMontadoraDetalhes frm = new FrmMontadoraDetalhes(_internalPrincipal);
+        _internalPrincipal.add(frm);
+        frm.setVisible(true);
+    }
 }

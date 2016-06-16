@@ -40,72 +40,6 @@ public class FrmModeloCadastro extends javax.swing.JInternalFrame {
         _montadoraController = new MontadoraController();
         _modeloController = new ModeloController();
     }
-
-    private void escolherAcaoNaTela(AcaoNaTela acaoNaTela, Modelo modelo) {
-        
-        txtCodigo.setEnabled(false);
-        chkAtivo.setVisible(false);
-        
-        switch(acaoNaTela){
-            case Inserir:
-                this.setTitle("Cadastro de Modelos");
-                txtModelo.setFocusable(true);
-                break;
-            case Detalhes:
-                this.setTitle("Detalhes do Modelo");
-                txtModelo.setEnabled(false);
-                btnSalvar.setVisible(false);               
-                chkAtivo.setSelected(modelo.isAtivo());
-                chkAtivo.setVisible(true);
-                chkAtivo.setEnabled(false);
-                cbMontadora.setEnabled(false);
-                cbModeloTipo.setEnabled(false);
-                btnCancelar.setFocusable(true);
-                cbModeloTipo.setSelectedItem("");
-                cbMontadora.setSelectedItem("");
-                break;
-            case Editar:
-                this.setTitle("Editar do Modelo");
-                txtCodigo.setText(Integer.toString(modelo.getId()));
-                txtModelo.setText(modelo.getNome()); 
-                btnSalvar.setVisible(false);
-                btnCancelar.setFocusable(true);
-                cbModeloTipo.setSelectedItem(modelo.ModeloTipo.getNome());
-                cbMontadora.setSelectedItem(modelo.Montadora.getNome());
-                break;
-        }
-    }
-    
-    private void carregarComboMontadora(){
-        MontadoraController montadoraCtrl = new MontadoraController();
-        
-        try {
-            ArrayList<Montadora> montadoras = montadoraCtrl.selecionarTodosAtivosInativos("Ativos", "");
-            
-            for(Montadora m : montadoras){
-                cbMontadora.addItem(m.getNome());
-            }
-            
-        } catch (SQLException ex) {
-            JOptionPane.showMessageDialog(null, "Não foi possível carregar as montadoras", "ERRO", JOptionPane.ERROR_MESSAGE);
-        }   
-    }
-    
-    private void carregarComboModeloTipo(){
-        ModeloTipoController modeloTipoCtrl = new ModeloTipoController();
-        
-        try {
-            ArrayList<ModeloTipo> modeloTipoList = modeloTipoCtrl.selecionarTodosAtivosInativos("Ativos");
-            
-            for(ModeloTipo m : modeloTipoList){
-                cbModeloTipo.addItem(m.getNome());
-            }
-            
-        } catch (SQLException ex) {
-            JOptionPane.showMessageDialog(null, "Não foi possível carregar os Tipos", "ERRO", JOptionPane.ERROR_MESSAGE);
-        }   
-    }
-
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -244,7 +178,28 @@ public class FrmModeloCadastro extends javax.swing.JInternalFrame {
                 editar();
             break;
         }
+        
+        FrmMontadoraDetalhes frm = new FrmMontadoraDetalhes(_internalPrincipal);
+        _internalPrincipal.add(frm);
+        frm.setVisible(true);
     }//GEN-LAST:event_btnSalvarActionPerformed
+
+    
+        
+    // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnCancelar;
+    private javax.swing.JButton btnSalvar;
+    private javax.swing.JComboBox<String> cbModeloTipo;
+    private javax.swing.JComboBox<String> cbMontadora;
+    private javax.swing.JCheckBox chkAtivo;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel lblCodigo;
+    private javax.swing.JLabel lblModelo;
+    private javax.swing.JTextField txtCodigo;
+    private javax.swing.JTextField txtModelo;
+    // End of variables declaration//GEN-END:variables
+
 
     private void inserir(){
         try {
@@ -263,19 +218,91 @@ public class FrmModeloCadastro extends javax.swing.JInternalFrame {
     
     private void editar(){
         
-    }
+        String montadora = (String)cbMontadora.getSelectedItem();
+        String modeloTipo = (String)cbModeloTipo.getSelectedItem();
         
-    // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnCancelar;
-    private javax.swing.JButton btnSalvar;
-    private javax.swing.JComboBox<String> cbModeloTipo;
-    private javax.swing.JComboBox<String> cbMontadora;
-    private javax.swing.JCheckBox chkAtivo;
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel lblCodigo;
-    private javax.swing.JLabel lblModelo;
-    private javax.swing.JTextField txtCodigo;
-    private javax.swing.JTextField txtModelo;
-    // End of variables declaration//GEN-END:variables
+        try {
+            int montadoraId = _montadoraController.retornaMontadoraId(montadora);
+            int modeloTipoId = _modeloTipoController.retornaModeloTipoId(modeloTipo);
+            
+            Modelo modelo = new Modelo(Integer.parseInt(txtCodigo.getText()),txtModelo.getText(), montadoraId, modeloTipoId, chkAtivo.isSelected());
+            _modeloController.salvar(modelo);
+            JOptionPane.showMessageDialog(null,"Novo modelo alterado com sucesso.","SUCESSO", JOptionPane.INFORMATION_MESSAGE);
+            this.dispose();
+            
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null,"Não foi possível alterar o modelo. Detalhes: "+ex.getMessage(),"ERRO", JOptionPane.ERROR_MESSAGE);
+            this.dispose();
+        }
+    }    
+    
+    private void escolherAcaoNaTela(AcaoNaTela acaoNaTela, Modelo modelo) {
+        
+        txtCodigo.setEnabled(false);
+        chkAtivo.setVisible(false);
+        
+        switch(acaoNaTela){
+            case Inserir:
+                this.setTitle("Cadastro de Modelos");
+                txtModelo.setFocusable(true);
+                break;
+            case Detalhes:
+                this.setTitle("Detalhes do Modelo");
+                txtCodigo.setText(Integer.toString(modelo.getId()));
+                txtModelo.setText(modelo.getNome());
+                cbModeloTipo.setSelectedItem(modelo.ModeloTipo.getNome());
+                cbMontadora.setSelectedItem(modelo.Montadora.getNome());
+                chkAtivo.setSelected(modelo.isAtivo());
+                txtModelo.setEnabled(false);
+                btnSalvar.setVisible(false);                              
+                chkAtivo.setVisible(true);
+                chkAtivo.setEnabled(false);
+                cbMontadora.setEnabled(false);
+                cbModeloTipo.setEnabled(false);
+                btnCancelar.setFocusable(true);
+                
+                break;
+            case Editar:
+                this.setTitle("Editar do Modelo");
+                txtCodigo.setText(Integer.toString(modelo.getId()));
+                txtModelo.setText(modelo.getNome());
+                chkAtivo.setSelected(modelo.isAtivo());
+                btnCancelar.setFocusable(true);
+                cbModeloTipo.setSelectedItem(modelo.ModeloTipo.getNome());
+                cbMontadora.setSelectedItem(modelo.Montadora.getNome());
+                chkAtivo.setVisible(true);
+                chkAtivo.setEnabled(true);
+                break;
+        }
+    }
+    
+    private void carregarComboMontadora(){
+        MontadoraController montadoraCtrl = new MontadoraController();
+        
+        try {
+            ArrayList<Montadora> montadoras = montadoraCtrl.selecionarTodosAtivosInativos("Ativos", "");
+            
+            for(Montadora m : montadoras){
+                cbMontadora.addItem(m.getNome());
+            }
+            
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, "Não foi possível carregar as montadoras", "ERRO", JOptionPane.ERROR_MESSAGE);
+        }   
+    }
+    
+    private void carregarComboModeloTipo(){
+        ModeloTipoController modeloTipoCtrl = new ModeloTipoController();
+        
+        try {
+            ArrayList<ModeloTipo> modeloTipoList = modeloTipoCtrl.selecionarTodosAtivosInativos("Ativos");
+            
+            for(ModeloTipo m : modeloTipoList){
+                cbModeloTipo.addItem(m.getNome());
+            }
+            
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, "Não foi possível carregar os Tipos", "ERRO", JOptionPane.ERROR_MESSAGE);
+        }   
+    }
 }

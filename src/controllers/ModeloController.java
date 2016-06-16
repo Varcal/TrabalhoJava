@@ -47,7 +47,7 @@ public class ModeloController {
         sb.append("WHERE Id = ?");
                
         PreparedStatement p = _con.prepareStatement(sb.toString());
-        p.setBoolean(1, modelo.isAtivo());
+        p.setBoolean(1, false);
         p.setInt(2, modelo.getId());
         
         p.executeUpdate();
@@ -107,8 +107,12 @@ public class ModeloController {
         StringBuilder sb = new StringBuilder();
         sb.append("Select ");
         sb.append(campos);
-        sb.append(" from Modelo ");
-        sb.append("WHERE Ativo = ? ");
+        sb.append(" ,mt.Nome as ModeloTipoNome, mt.Ativo as ModeloTipoAtivo, ");
+        sb.append(" md.Nome as MontadoraNome, md.Ativo as MontadoraAtivo ");
+        sb.append(" from Modelo m ");
+        sb.append(" Inner join ModeloTipo mt on mt.Id = m.ModeloTipoId ");
+        sb.append(" Inner join Montadora md on md.Id = m.MontadoraId ");
+        sb.append(" WHERE m.Ativo = ? ");
         sb.append(!"".equals(pesquisa) ? "And UPPER(Nome) Like '%"+pesquisa.toUpperCase()+"%'" : "");       
        
         ArrayList<Modelo> modelos = new ArrayList<Modelo>();
@@ -118,6 +122,8 @@ public class ModeloController {
         
         while(rs.next()){
             Modelo modelo = new Modelo(rs.getInt("Id"), rs.getString("Nome"), rs.getInt("MontadoraId"), rs.getInt("ModeloTipoId"), rs.getBoolean("Ativo"));
+            modelo.ModeloTipo = new ModeloTipo(rs.getInt("ModeloTipoId"), rs.getString("ModeloTipoNome"), rs.getBoolean("ModeloTipoAtivo"));
+            modelo.Montadora = new Montadora(rs.getInt("MontadoraId"), rs.getString("MontadoraNome"), rs.getBoolean("MontadoraAtivo"));      
             modelos.add(modelo);
         }
         fecharConexao(rs, p);

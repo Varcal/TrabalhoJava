@@ -261,6 +261,23 @@ public class FrmMontadoraDetalhes extends javax.swing.JInternalFrame {
         carregarTabela(situacao, pesquisa);               
     }//GEN-LAST:event_btnPesquisarActionPerformed
 
+   
+    
+    // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnAlterar;
+    private javax.swing.JButton btnDetalhes;
+    private javax.swing.JButton btnExcluir;
+    private javax.swing.JButton btnFechar;
+    private javax.swing.JButton btnNovo;
+    private javax.swing.JButton btnPesquisar;
+    private javax.swing.JComboBox<String> cbSituacao;
+    private javax.swing.JTable gridMontadoras;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JPanel pnlAcoes;
+    private javax.swing.JTextField txtPesquisar;
+    // End of variables declaration//GEN-END:variables
+
+
     private void chamarFormMontadoraCadastro(AcaoNaTela acao, Montadora montadora) {
         FrmMontadoraCadastro frm = new FrmMontadoraCadastro(_internalPrincipal,acao, montadora);
         this.dispose();
@@ -306,18 +323,4 @@ public class FrmMontadoraDetalhes extends javax.swing.JInternalFrame {
         
         return montadora;
     }
-    
-    // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnAlterar;
-    private javax.swing.JButton btnDetalhes;
-    private javax.swing.JButton btnExcluir;
-    private javax.swing.JButton btnFechar;
-    private javax.swing.JButton btnNovo;
-    private javax.swing.JButton btnPesquisar;
-    private javax.swing.JComboBox<String> cbSituacao;
-    private javax.swing.JTable gridMontadoras;
-    private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JPanel pnlAcoes;
-    private javax.swing.JTextField txtPesquisar;
-    // End of variables declaration//GEN-END:variables
 }

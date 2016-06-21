@@ -51,16 +51,14 @@ public class FrmPrincipal extends javax.swing.JFrame{
         InternalPrincipal = new javax.swing.JDesktopPane();
         menuBar = new javax.swing.JMenuBar();
         menuCadastro = new javax.swing.JMenu();
-        imCadastroMontadora = new javax.swing.JMenuItem();
-        imCadastroModelo = new javax.swing.JMenuItem();
-        imCadastroVeiculos = new javax.swing.JMenuItem();
-        imCadastroUsuario = new javax.swing.JMenuItem();
-        menuVenda = new javax.swing.JMenu();
-        menuConsulta = new javax.swing.JMenu();
         imConsultaUsuarios = new javax.swing.JMenuItem();
         imConsultaMontadoras = new javax.swing.JMenuItem();
         imConsultaModelos = new javax.swing.JMenuItem();
         imConsultaVeiculos = new javax.swing.JMenuItem();
+        menuVenda = new javax.swing.JMenu();
+        menuConsulta = new javax.swing.JMenu();
+        imVendidos = new javax.swing.JMenuItem();
+        jMenuItem2 = new javax.swing.JMenuItem();
         menuSair = new javax.swing.JMenu();
 
         jMenuItem1.setText("jMenuItem1");
@@ -79,29 +77,34 @@ public class FrmPrincipal extends javax.swing.JFrame{
             .addGap(0, 845, Short.MAX_VALUE)
         );
 
-        menuCadastro.setText("Cadastro ");
+        menuCadastro.setText("Cadastros");
 
-        imCadastroMontadora.setText("Cadastro Montadora");
-        imCadastroMontadora.addActionListener(new java.awt.event.ActionListener() {
+        imConsultaUsuarios.setText("Usuários");
+        menuCadastro.add(imConsultaUsuarios);
+
+        imConsultaMontadoras.setText("Montadoras");
+        imConsultaMontadoras.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                imCadastroMontadoraActionPerformed(evt);
+                imConsultaMontadorasActionPerformed(evt);
             }
         });
-        menuCadastro.add(imCadastroMontadora);
+        menuCadastro.add(imConsultaMontadoras);
 
-        imCadastroModelo.setText("Cadastro Modelo");
-        imCadastroModelo.addActionListener(new java.awt.event.ActionListener() {
+        imConsultaModelos.setText("Modelos");
+        imConsultaModelos.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                imCadastroModeloActionPerformed(evt);
+                imConsultaModelosActionPerformed(evt);
             }
         });
-        menuCadastro.add(imCadastroModelo);
+        menuCadastro.add(imConsultaModelos);
 
-        imCadastroVeiculos.setText("Cadastro Veículos");
-        menuCadastro.add(imCadastroVeiculos);
-
-        imCadastroUsuario.setText("Cadastro Usuário");
-        menuCadastro.add(imCadastroUsuario);
+        imConsultaVeiculos.setText("Veículos");
+        imConsultaVeiculos.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                imConsultaVeiculosActionPerformed(evt);
+            }
+        });
+        menuCadastro.add(imConsultaVeiculos);
 
         menuBar.add(menuCadastro);
 
@@ -110,27 +113,11 @@ public class FrmPrincipal extends javax.swing.JFrame{
 
         menuConsulta.setText("Consultas");
 
-        imConsultaUsuarios.setText("Usuários");
-        menuConsulta.add(imConsultaUsuarios);
+        imVendidos.setText("Vendidos");
+        menuConsulta.add(imVendidos);
 
-        imConsultaMontadoras.setText("Montadoras");
-        imConsultaMontadoras.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                imConsultaMontadorasActionPerformed(evt);
-            }
-        });
-        menuConsulta.add(imConsultaMontadoras);
-
-        imConsultaModelos.setText("Modelos");
-        imConsultaModelos.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                imConsultaModelosActionPerformed(evt);
-            }
-        });
-        menuConsulta.add(imConsultaModelos);
-
-        imConsultaVeiculos.setText("Veículos");
-        menuConsulta.add(imConsultaVeiculos);
+        jMenuItem2.setText("Estoque");
+        menuConsulta.add(jMenuItem2);
 
         menuBar.add(menuConsulta);
 
@@ -160,18 +147,6 @@ public class FrmPrincipal extends javax.swing.JFrame{
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void imCadastroModeloActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_imCadastroModeloActionPerformed
-       FrmModeloCadastro frm = new FrmModeloCadastro(InternalPrincipal, AcaoNaTela.Inserir, null);
-       InternalPrincipal.add(frm);
-       frm.setVisible(true);
-    }//GEN-LAST:event_imCadastroModeloActionPerformed
-
-    private void imCadastroMontadoraActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_imCadastroMontadoraActionPerformed
-       FrmMontadoraCadastro frm = new FrmMontadoraCadastro(InternalPrincipal, AcaoNaTela.Inserir, null);
-       InternalPrincipal.add(frm);
-       frm.setVisible(true);
-    }//GEN-LAST:event_imCadastroMontadoraActionPerformed
-
     private void imConsultaModelosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_imConsultaModelosActionPerformed
         FrmModeloDetalhes frm = new FrmModeloDetalhes(InternalPrincipal);
         InternalPrincipal.add(frm);
@@ -183,19 +158,23 @@ public class FrmPrincipal extends javax.swing.JFrame{
         InternalPrincipal.add(frm);
         frm.setVisible(true);
     }//GEN-LAST:event_imConsultaMontadorasActionPerformed
+
+    private void imConsultaVeiculosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_imConsultaVeiculosActionPerformed
+        FrmVeiculoDetalhes frm = new FrmVeiculoDetalhes(InternalPrincipal);
+        InternalPrincipal.add(frm);
+        frm.setVisible(true);
+    }//GEN-LAST:event_imConsultaVeiculosActionPerformed
     
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JDesktopPane InternalPrincipal;
-    private javax.swing.JMenuItem imCadastroModelo;
-    private javax.swing.JMenuItem imCadastroMontadora;
-    private javax.swing.JMenuItem imCadastroUsuario;
-    private javax.swing.JMenuItem imCadastroVeiculos;
     private javax.swing.JMenuItem imConsultaModelos;
     private javax.swing.JMenuItem imConsultaMontadoras;
     private javax.swing.JMenuItem imConsultaUsuarios;
     private javax.swing.JMenuItem imConsultaVeiculos;
+    private javax.swing.JMenuItem imVendidos;
     private javax.swing.JMenuItem jMenuItem1;
+    private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JMenuBar menuBar;
     private javax.swing.JMenu menuCadastro;
     private javax.swing.JMenu menuConsulta;

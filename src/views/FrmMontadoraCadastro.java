@@ -31,7 +31,7 @@ public class FrmMontadoraCadastro extends javax.swing.JInternalFrame {
         this.setLocation(440, 200);
         _acaoNaTela = acaoNaTela;
         _internalPrincipal = internalPrincipal;        
-        EscolherAcaoNaTela(acaoNaTela, montadora);
+        escolherAcaoNaTela(acaoNaTela, montadora);
         _controller = new MontadoraController();
     }
 
@@ -183,7 +183,7 @@ public class FrmMontadoraCadastro extends javax.swing.JInternalFrame {
         
     }
     
-    private void EscolherAcaoNaTela(AcaoNaTela acaoNaTela, Montadora montadora) {
+    private void escolherAcaoNaTela(AcaoNaTela acaoNaTela, Montadora montadora) {
         
         txtCodigo.setEnabled(false);
         chkAtivo.setVisible(false);

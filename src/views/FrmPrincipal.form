@@ -11,45 +11,7 @@
       <SubComponents>
         <Menu class="javax.swing.JMenu" name="menuCadastro">
           <Properties>
-            <Property name="text" type="java.lang.String" value="Cadastro "/>
-          </Properties>
-          <SubComponents>
-            <MenuItem class="javax.swing.JMenuItem" name="imCadastroMontadora">
-              <Properties>
-                <Property name="text" type="java.lang.String" value="Cadastro Montadora"/>
-              </Properties>
-              <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="imCadastroMontadoraActionPerformed"/>
-              </Events>
-            </MenuItem>
-            <MenuItem class="javax.swing.JMenuItem" name="imCadastroModelo">
-              <Properties>
-                <Property name="text" type="java.lang.String" value="Cadastro Modelo"/>
-              </Properties>
-              <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="imCadastroModeloActionPerformed"/>
-              </Events>
-            </MenuItem>
-            <MenuItem class="javax.swing.JMenuItem" name="imCadastroVeiculos">
-              <Properties>
-                <Property name="text" type="java.lang.String" value="Cadastro Ve&#xed;culos"/>
-              </Properties>
-            </MenuItem>
-            <MenuItem class="javax.swing.JMenuItem" name="imCadastroUsuario">
-              <Properties>
-                <Property name="text" type="java.lang.String" value="Cadastro Usu&#xe1;rio"/>
-              </Properties>
-            </MenuItem>
-          </SubComponents>
-        </Menu>
-        <Menu class="javax.swing.JMenu" name="menuVenda">
-          <Properties>
-            <Property name="text" type="java.lang.String" value="Venda"/>
-          </Properties>
-        </Menu>
-        <Menu class="javax.swing.JMenu" name="menuConsulta">
-          <Properties>
-            <Property name="text" type="java.lang.String" value="Consultas"/>
+            <Property name="text" type="java.lang.String" value="Cadastros"/>
           </Properties>
           <SubComponents>
             <MenuItem class="javax.swing.JMenuItem" name="imConsultaUsuarios">
@@ -76,6 +38,31 @@
             <MenuItem class="javax.swing.JMenuItem" name="imConsultaVeiculos">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Ve&#xed;culos"/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="imConsultaVeiculosActionPerformed"/>
+              </Events>
+            </MenuItem>
+          </SubComponents>
+        </Menu>
+        <Menu class="javax.swing.JMenu" name="menuVenda">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Venda"/>
+          </Properties>
+        </Menu>
+        <Menu class="javax.swing.JMenu" name="menuConsulta">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Consultas"/>
+          </Properties>
+          <SubComponents>
+            <MenuItem class="javax.swing.JMenuItem" name="imVendidos">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Vendidos"/>
+              </Properties>
+            </MenuItem>
+            <MenuItem class="javax.swing.JMenuItem" name="jMenuItem2">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Estoque"/>
               </Properties>
             </MenuItem>
           </SubComponents>

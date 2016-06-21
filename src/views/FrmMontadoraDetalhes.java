@@ -261,7 +261,6 @@ public class FrmMontadoraDetalhes extends javax.swing.JInternalFrame {
         carregarTabela(situacao, pesquisa);               
     }//GEN-LAST:event_btnPesquisarActionPerformed
 
-   
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAlterar;

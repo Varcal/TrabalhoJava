@@ -83,6 +83,35 @@ public class ModeloController {
         return modelo;
     }
     
+    public Modelo buscarPorNome(String nome) throws SQLException{
+        
+        StringBuilder sb = new StringBuilder();
+        sb.append("Select ");
+        sb.append(campos);
+        sb.append(" ,mt.Nome as ModeloTipoNome, mt.Ativo as ModeloTipoAtivo, ");
+        sb.append(" md.Nome as MontadoraNome, md.Ativo as MontadoraAtivo ");
+        sb.append(" from Modelo m ");
+        sb.append(" Inner join ModeloTipo mt on mt.Id = m.ModeloTipoId ");
+        sb.append(" Inner join Montadora md on md.Id = m.MontadoraId ");
+        sb.append(" Where m.Nome = ?");
+       
+        ArrayList<Modelo> modelos = new ArrayList<Modelo>();
+        PreparedStatement p = _con.prepareStatement(sb.toString());
+        p.setString(1, nome);
+        ResultSet rs  = p.executeQuery();
+        
+        Modelo modelo = null;
+        
+        while(rs.next()){
+            modelo = new Modelo(rs.getInt("Id"), rs.getString("Nome"), rs.getInt("MontadoraId"), rs.getInt("ModeloTipoId"), rs.getBoolean("Ativo"));
+            modelo.ModeloTipo = new ModeloTipo(rs.getInt("ModeloTipoId"), rs.getString("ModeloTipoNome"), rs.getBoolean("ModeloTipoAtivo"));
+            modelo.Montadora = new Montadora(rs.getInt("MontadoraId"), rs.getString("MontadoraNome"), rs.getBoolean("MontadoraAtivo"));
+        }
+        
+        fecharConexao(rs, p);
+        return modelo;
+    }
+    
     public ArrayList<Modelo> selecionarTodos() throws SQLException{
         
         StringBuilder sb = new StringBuilder();
@@ -107,8 +136,8 @@ public class ModeloController {
         StringBuilder sb = new StringBuilder();
         sb.append("Select ");
         sb.append(campos);
-        sb.append(" ,mt.Nome as ModeloTipoNome, mt.Ativo as ModeloTipoAtivo, ");
-        sb.append(" md.Nome as MontadoraNome, md.Ativo as MontadoraAtivo ");
+        sb.append(" ,mt.Nome as ModeloTipoNome, mt.Ativo as ModeloTipoAtivo ");
+        sb.append(" ,md.Nome as MontadoraNome, md.Ativo as MontadoraAtivo ");
         sb.append(" from Modelo m ");
         sb.append(" Inner join ModeloTipo mt on mt.Id = m.ModeloTipoId ");
         sb.append(" Inner join Montadora md on md.Id = m.MontadoraId ");
@@ -130,6 +159,27 @@ public class ModeloController {
         return modelos;
     }
     
+    public int retornaId(String nome) throws SQLException{
+        StringBuilder sb = new StringBuilder();
+        sb.append("Select ");
+        sb.append(" Id ");
+        sb.append(" from Modelo ");
+        sb.append(" Where Nome = ? ");
+       
+        ArrayList<Modelo> modelos = new ArrayList<Modelo>();
+        PreparedStatement p = _con.prepareStatement(sb.toString());
+        p.setString(1, nome);
+        ResultSet rs  = p.executeQuery();
+        
+        int retorno = 0;
+        
+        while(rs.next()){
+            retorno = rs.getInt("Id");
+            
+        }
+        fecharConexao(rs, p);
+        return retorno;
+    }
     
     private void inserir (Modelo modelo) throws SQLException{
         

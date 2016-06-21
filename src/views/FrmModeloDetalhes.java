@@ -131,6 +131,11 @@ public class FrmModeloDetalhes extends javax.swing.JInternalFrame {
         );
 
         btnPesquisar.setText("...");
+        btnPesquisar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnPesquisarActionPerformed(evt);
+            }
+        });
 
         gridModelo.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -215,8 +220,8 @@ public class FrmModeloDetalhes extends javax.swing.JInternalFrame {
         
         int linhaSelecionada  = gridModelo.getSelectedRow();
         
-        if(linhaSelecionada <= 0){
-            JOptionPane.showMessageDialog(null, "Nenhum modelo foi seleciondo.", "INFORMAÇÔES", JOptionPane.INFORMATION_MESSAGE);
+        if(linhaSelecionada < 0){
+            JOptionPane.showMessageDialog(null, "Nenhum modelo foi selecionado.", "INFORMAÇÔES", JOptionPane.INFORMATION_MESSAGE);
             return;
         }
         
@@ -226,7 +231,7 @@ public class FrmModeloDetalhes extends javax.swing.JInternalFrame {
         try {
             modelo = _modeloController.buscarPorId(id);
         } catch (SQLException ex) {
-            JOptionPane.showMessageDialog(null,"Ocorreu um erro ao tentar visualizar um model.", "ERRO", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null,"Ocorreu um erro ao tentar visualizar um modelo.", "ERRO", JOptionPane.ERROR_MESSAGE);
         }
         chamarFormModeloCadastro(AcaoNaTela.Editar, modelo);
     }//GEN-LAST:event_btnAlterarActionPerformed
@@ -234,8 +239,8 @@ public class FrmModeloDetalhes extends javax.swing.JInternalFrame {
     private void btnDetalhesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDetalhesActionPerformed
         int linhaSelecionada  = gridModelo.getSelectedRow();
         
-        if(linhaSelecionada <= 0){
-            JOptionPane.showMessageDialog(null, "Nenhum modelo foi seleciondo.", "INFORMAÇÔES", JOptionPane.INFORMATION_MESSAGE);
+        if(linhaSelecionada < 0){
+            JOptionPane.showMessageDialog(null, "Nenhum modelo foi selecionado.", "INFORMAÇÔES", JOptionPane.INFORMATION_MESSAGE);
             return;
         }
         
@@ -245,7 +250,7 @@ public class FrmModeloDetalhes extends javax.swing.JInternalFrame {
         try {
             modelo = _modeloController.buscarPorId(id);
         } catch (SQLException ex) {
-            JOptionPane.showMessageDialog(null,"Ocorreu um erro ao tentar visualizar um model.", "ERRO", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null,"Ocorreu um erro ao tentar visualizar um modelo.", "ERRO", JOptionPane.ERROR_MESSAGE);
         }         
         chamarFormModeloCadastro(AcaoNaTela.Detalhes, modelo);
     }//GEN-LAST:event_btnDetalhesActionPerformed
@@ -253,12 +258,13 @@ public class FrmModeloDetalhes extends javax.swing.JInternalFrame {
     private void btnExcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExcluirActionPerformed
         int linhaSelecionada  = gridModelo.getSelectedRow();
         
-        if(linhaSelecionada <= 0){
+        if(linhaSelecionada < 0){
             JOptionPane.showMessageDialog(null, "Nenhum modelo foi seleciondo.", "INFORMAÇÔES", JOptionPane.INFORMATION_MESSAGE);
             return;
         }
         
         int id =  (Integer)gridModelo.getValueAt(linhaSelecionada, 0);
+        
         try {
             Modelo modelo = _modeloController.buscarPorId(id);
             int result = JOptionPane.showConfirmDialog(null, "Tem certeza que deseja excluir?", "PERGUNTA", JOptionPane.YES_NO_CANCEL_OPTION);      
@@ -272,6 +278,10 @@ public class FrmModeloDetalhes extends javax.swing.JInternalFrame {
               
         
     }//GEN-LAST:event_btnExcluirActionPerformed
+
+    private void btnPesquisarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPesquisarActionPerformed
+        
+    }//GEN-LAST:event_btnPesquisarActionPerformed
   
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAlterar;
@@ -311,7 +321,7 @@ public class FrmModeloDetalhes extends javax.swing.JInternalFrame {
                 table.addRow(new Object[]{m.getId(), m.getNome(), m.Montadora.getNome(), m.isAtivo()? "Ativo" : "Inativo"});
             }
             
-        }catch(Exception ex){
+        }catch(SQLException ex){
             JOptionPane.showMessageDialog(null, "Não foi possível carregas as informações Detalhes: "+ex.getMessage(), "ERRO", JOptionPane.ERROR_MESSAGE);
         }
         

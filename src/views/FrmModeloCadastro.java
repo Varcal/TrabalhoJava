@@ -183,8 +183,7 @@ public class FrmModeloCadastro extends javax.swing.JInternalFrame {
         _internalPrincipal.add(frm);
         frm.setVisible(true);
     }//GEN-LAST:event_btnSalvarActionPerformed
-
-    
+   
         
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnCancelar;
